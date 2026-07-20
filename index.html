@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <title>SISTEM UJIAN SMANDA V7 Pro - Perfected Premium Edition</title>
     <!-- Tailwind CSS for premium utility styling -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -43,6 +43,9 @@
         }
         .neon-shadow-red {
             box-shadow: 0 0 25px -5px rgba(239, 68, 68, 0.2);
+        }
+        .neon-shadow-purple {
+            box-shadow: 0 0 25px -5px rgba(168, 85, 247, 0.25);
         }
         /* Lock screen pulse animation */
         @keyframes pulse-glow {
@@ -85,7 +88,7 @@
         
         <!-- ==================== VIEW 1: GATEWAY (HOME) ==================== -->
         <section id="view-gateway" class="flex-grow flex items-center justify-center p-4 min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
-            <div class="max-w-md w-full bg-slate-900/70 border border-slate-800/80 rounded-[32px] p-6 sm:p-10 shadow-2xl backdrop-blur-xl text-center flex flex-col gap-8 neon-shadow-emerald relative overflow-hidden">
+            <div class="max-w-md w-full bg-slate-900/70 border border-slate-800/80 rounded-[32px] p-6 sm:p-10 shadow-2xl backdrop-blur-xl text-center flex flex-col gap-6 neon-shadow-emerald relative overflow-hidden">
                 <!-- Cyber Grid Background Accent -->
                 <div class="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:16px_16px] opacity-20 pointer-events-none"></div>
                 
@@ -102,15 +105,19 @@
                     <div class="h-px bg-slate-800/80 w-full"></div>
                     <p class="text-xs text-slate-400 leading-relaxed px-2">Aplikasi manajemen & proteksi lembar ujian nasional terenkripsi. Silakan pilih portal akses Anda di bawah ini:</p>
                     
-                    <div class="flex flex-col gap-3.5 pt-2">
+                    <div class="flex flex-col gap-3 pt-2">
                         <button onclick="switchView('student-portal')" class="group relative w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 active:scale-[0.98] text-white font-bold py-4 px-6 rounded-2xl shadow-xl shadow-emerald-950/30 transition-all flex items-center justify-center gap-3 overflow-hidden">
                             <div class="absolute inset-0 w-full h-full bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform"></div>
                             <i class="fa-solid fa-graduation-cap text-lg"></i>
-                            <span class="relative">PORTAL SISWA (IKUTI UJIAN)</span>
+                            <span class="relative font-extrabold">PORTAL SISWA (IKUTI UJIAN)</span>
                         </button>
                         <button onclick="switchView('admin-login')" class="group w-full bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white font-bold py-4 px-6 rounded-2xl border border-slate-700/50 transition-all flex items-center justify-center gap-3">
                             <i class="fa-solid fa-user-gear text-lg text-slate-400 group-hover:text-blue-400 transition-colors"></i>
-                            PORTAL GURU / GURU GENERATOR
+                            PORTAL GURU GENERATOR
+                        </button>
+                        <button onclick="switchView('super-admin-login')" class="group w-full bg-slate-950/60 hover:bg-slate-900 text-slate-400 hover:text-purple-400 font-bold py-3 px-6 rounded-2xl border border-slate-800/80 transition-all flex items-center justify-center gap-3 text-xs">
+                            <i class="fa-solid fa-user-shield text-purple-500"></i>
+                            PORTAL SUPER ADMIN (MANAJEMEN GURU)
                         </button>
                     </div>
                     <div class="text-[10px] text-slate-500 font-medium">Proteksi Keamanan Anti-Curang Terenkripsi Heksadesimal</div>
@@ -126,30 +133,179 @@
                 </button>
                 <div class="text-center">
                     <div class="bg-blue-500/10 p-4 rounded-2xl border border-blue-500/30 text-blue-400 inline-block mb-4">
-                        <i class="fa-solid fa-lock text-3xl"></i>
+                        <i class="fa-solid fa-user-tie text-3xl"></i>
                     </div>
-                    <h2 class="text-2xl font-black text-white">Otorisasi Guru</h2>
-                    <p class="text-xs text-slate-400 mt-1.5 px-4 leading-relaxed">Masukkan kode sandi administrator untuk membuka dashboard perumusan kode ujian aman.</p>
+                    <h2 class="text-2xl font-black text-white">Otorisasi Akun Guru</h2>
+                    <p class="text-xs text-slate-400 mt-1.5 px-4 leading-relaxed">Masukkan Username dan Kunci PIN Anda untuk membuka dashboard generator ujian.</p>
                 </div>
                 <div class="space-y-4">
                     <div>
-                        <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-2" for="admin-passcode">Kunci Sandi Administrator</label>
+                        <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5" for="admin-username">Username Guru</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-500">
+                                <i class="fa-solid fa-user"></i>
+                            </span>
+                            <input type="text" id="admin-username" 
+                                   class="w-full bg-slate-950/60 border border-slate-800 focus:border-blue-500 rounded-xl pl-11 pr-4 py-3 text-sm text-slate-100 placeholder-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all font-semibold"
+                                   placeholder="Username Guru">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5" for="admin-passcode">Kunci PIN</label>
                         <div class="relative">
                             <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-500">
                                 <i class="fa-solid fa-key"></i>
                             </span>
                             <input type="password" id="admin-passcode" 
-                                   class="w-full bg-slate-950/60 border border-slate-800 focus:border-blue-500 rounded-xl pl-11 pr-4 py-3.5 text-sm text-slate-100 placeholder-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all text-center font-mono tracking-widest"
+                                   class="w-full bg-slate-950/60 border border-slate-800 focus:border-blue-500 rounded-xl pl-11 pr-4 py-3 text-sm text-slate-100 placeholder-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all text-center font-mono tracking-widest"
                                    placeholder="••••••••" required>
                         </div>
-                        <p class="text-[11px] text-slate-500 mt-2.5 text-center">Petunjuk: Sandi standar bawaan adalah <span class="text-blue-400 font-mono font-bold bg-blue-500/10 px-2 py-0.5 rounded border border-blue-500/20">admin123</span></p>
                     </div>
                     <button onclick="verifyAdminLogin()" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 active:scale-[0.98] text-white font-bold py-3.5 px-4 rounded-xl shadow-lg shadow-blue-950/40 transition-all flex items-center justify-center gap-2 text-sm">
                         <i class="fa-solid fa-right-to-bracket"></i>
-                        BUKA DASHBOARD
+                        BUKA DASHBOARD GURU
+                    </button>
+                    <p class="text-[10px] text-slate-500 text-center leading-relaxed">Default Guru: <span class="text-slate-300 font-mono">guru1</span> / PIN <span class="text-slate-300 font-mono">guru123</span>.<br>Kelola daftar guru resmi via portal <span class="text-purple-400 font-semibold cursor-pointer underline" onclick="switchView('super-admin-login')">Super Admin</span>.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== VIEW 2B: SUPER ADMIN LOGIN (PASSCODE GATE) ==================== -->
+        <section id="view-super-admin-login" class="hidden flex-grow flex items-center justify-center p-4 min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+            <div class="max-w-md w-full bg-slate-900/70 border border-purple-900/60 rounded-[32px] p-6 sm:p-10 shadow-2xl backdrop-blur-xl flex flex-col gap-6 neon-shadow-purple relative overflow-hidden">
+                <button onclick="switchView('gateway')" class="self-start text-xs text-slate-400 hover:text-white flex items-center gap-2 transition-colors font-semibold group">
+                    <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform"></i> Kembali ke Beranda
+                </button>
+                <div class="text-center">
+                    <div class="bg-purple-500/10 p-4 rounded-2xl border border-purple-500/30 text-purple-400 inline-block mb-4">
+                        <i class="fa-solid fa-user-shield text-3xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-black text-white">Portal Super Admin</h2>
+                    <p class="text-xs text-slate-400 mt-1.5 px-4 leading-relaxed">Kredensial khusus untuk meregulasi otoritas akun Guru di sistem ini.</p>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5" for="super-username">Username Super Admin</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-500">
+                                <i class="fa-solid fa-user-gear"></i>
+                            </span>
+                            <input type="text" id="super-username" 
+                                   class="w-full bg-slate-950/60 border border-slate-800 focus:border-purple-500 rounded-xl pl-11 pr-4 py-3 text-sm text-slate-100 placeholder-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all font-mono"
+                                   placeholder="superadmin" value="superadmin">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5" for="super-passcode">Password Rahasia</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-500">
+                                <i class="fa-solid fa-key"></i>
+                            </span>
+                            <input type="password" id="super-passcode" 
+                                   class="w-full bg-slate-950/60 border border-slate-800 focus:border-purple-500 rounded-xl pl-11 pr-4 py-3 text-sm text-slate-100 placeholder-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all text-center font-mono tracking-widest"
+                                   placeholder="••••••••" required>
+                        </div>
+                        <p class="text-[10px] text-slate-500 mt-2 text-center">Bawaan standar pabrik: <span class="text-purple-400 font-mono font-bold bg-purple-500/10 px-2 py-0.5 rounded border border-purple-500/20">super123</span></p>
+                    </div>
+                    <button onclick="verifySuperAdminLogin()" class="w-full bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:from-purple-500 hover:to-fuchsia-500 active:scale-[0.98] text-white font-bold py-3.5 px-4 rounded-xl shadow-lg shadow-purple-950/40 transition-all flex items-center justify-center gap-2 text-sm">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        LOGIN OTORISASI PENUH
                     </button>
                 </div>
             </div>
+        </section>
+
+        <!-- ==================== VIEW 2C: SUPER ADMIN DASHBOARD ==================== -->
+        <section id="view-super-admin-dashboard" class="hidden flex-grow flex flex-col bg-slate-950">
+            <header class="border-b border-purple-900/50 bg-slate-900/50 backdrop-blur sticky top-0 z-50 px-4 py-4 sm:px-6">
+                <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+                    <div class="flex items-center gap-4">
+                        <div class="bg-purple-500/10 p-3 rounded-2xl border border-purple-500/20 text-purple-400">
+                            <i class="fa-solid fa-crown text-2xl"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-2xl font-black tracking-tight text-white flex items-center gap-2">
+                                KONSOL SUPER ADMIN
+                            </h1>
+                            <p class="text-xs text-purple-400 font-semibold tracking-wider">Regulasi Kredensial Pengawas & Guru SMANDA</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <button onclick="switchView('gateway')" class="bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white px-4 py-2.5 rounded-xl text-xs font-bold border border-slate-800 flex items-center gap-2 transition-all">
+                            <i class="fa-solid fa-arrow-left-on-rectangle"></i> Logout Konsol
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <main class="flex-grow max-w-6xl w-full mx-auto p-4 sm:p-6 flex flex-col gap-6">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <!-- Left: Form Creator Akun Guru -->
+                    <div class="lg:col-span-4 bg-slate-900/60 border border-slate-800 rounded-3xl p-5 shadow-xl flex flex-col gap-4">
+                        <div class="pb-3 border-b border-slate-800/80">
+                            <h2 class="font-extrabold text-white text-base flex items-center gap-2">
+                                <i class="fa-solid fa-user-plus text-purple-400"></i>
+                                <span id="super-guru-form-title">Tambahkan Akun Guru</span>
+                            </h2>
+                            <p class="text-[10px] text-slate-400 mt-1">Buat akun agar guru pengawas dapat mengakses panel kuis.</p>
+                        </div>
+                        
+                        <input type="hidden" id="edit-guru-id">
+                        
+                        <div class="space-y-3">
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Nama Lengkap Guru</label>
+                                <input type="text" id="guru-fullname" class="w-full bg-slate-950/60 border border-slate-800 focus:border-purple-500 rounded-xl px-4 py-2.5 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-purple-500/20" placeholder="Contoh: Dasril Amri, S.Pd.">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Username Akses</label>
+                                <input type="text" id="guru-user" class="w-full bg-slate-950/60 border border-slate-800 focus:border-purple-500 rounded-xl px-4 py-2.5 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-purple-500/20 font-mono" placeholder="contoh: guru_mtk">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Kunci PIN Guru (Password)</label>
+                                <input type="text" id="guru-pin" class="w-full bg-slate-950/60 border border-slate-800 focus:border-purple-500 rounded-xl px-4 py-2.5 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-purple-500/20 font-mono" placeholder="Kunci/PIN Rahasia">
+                            </div>
+                        </div>
+
+                        <div class="flex gap-2 pt-2">
+                            <button onclick="saveTeacherAccount()" id="btn-save-teacher" class="flex-1 bg-purple-600 hover:bg-purple-500 active:scale-[0.98] text-white py-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-floppy-disk"></i> Simpan Akun
+                            </button>
+                            <button onclick="resetTeacherForm()" class="bg-slate-800 hover:bg-slate-700 text-slate-400 py-3 px-3 rounded-xl text-xs font-bold transition-all">
+                                Batal
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Right: List / Table Akun Guru Terdaftar -->
+                    <div class="lg:col-span-8 bg-slate-900/60 border border-slate-800 rounded-3xl p-5 shadow-xl flex flex-col gap-4">
+                        <div class="pb-3 border-b border-slate-800/80">
+                            <h2 class="font-extrabold text-white text-base">Daftar Akun Guru Terdaftar</h2>
+                            <p class="text-[10px] text-slate-400 mt-1">Mengontrol hak akses seluruh asisten guru atau pengawas di SMANDA.</p>
+                        </div>
+
+                        <div class="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950/30">
+                            <table class="w-full text-left text-xs">
+                                <thead>
+                                    <tr class="bg-slate-900 text-slate-400 border-b border-slate-800 text-[9px] tracking-wider uppercase font-bold">
+                                        <th class="p-3">Nama Lengkap</th>
+                                        <th class="p-3">Username</th>
+                                        <th class="p-3">PIN / Sandi</th>
+                                        <th class="p-3 text-right">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="teacher-accounts-table-body" class="divide-y divide-slate-800/50">
+                                    <!-- Dynamic elements from teacherAccounts -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="teacher-empty-state" class="hidden py-8 text-center text-slate-500">
+                            <i class="fa-solid fa-users-slash text-3xl mb-2"></i>
+                            <p class="text-xs">Belum ada akun guru kustom yang terdaftar.</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
         </section>
 
         <!-- ==================== VIEW 3: ADMIN DASHBOARD (GENERATOR PANEL) ==================== -->
@@ -171,7 +327,7 @@
                     <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
                         <div class="hidden md:flex items-center gap-2 text-[10px] font-bold tracking-wider bg-slate-900/80 border border-slate-800/80 px-4 py-2 rounded-full text-emerald-400">
                             <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
-                            <span>SISTEM GENERATOR AKTIF</span>
+                            <span>PORTAL GURU AKTIF</span>
                         </div>
                         <button onclick="switchView('gateway')" class="bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white px-4 py-2.5 rounded-xl text-xs font-bold border border-slate-800 flex items-center gap-2 transition-all">
                             <i class="fa-solid fa-arrow-left-on-rectangle"></i> Keluar Portal
@@ -210,6 +366,44 @@
                                     <input type="text" id="subject-name" 
                                            class="w-full bg-slate-950/60 border border-slate-800 focus:border-emerald-500 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-100 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/10 transition-all"
                                            placeholder="Contoh: Penilaian Harian Matematika 9A" required>
+                                </div>
+                            </div>
+
+                            <!-- TAMBAHAN: Input Kelompok Kelas (X, XI, XII) -->
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2" for="subject-grade">
+                                    Kelompok Sasaran Kelas (Tingkatan)
+                                </label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-500">
+                                        <i class="fa-solid fa-graduation-cap"></i>
+                                    </span>
+                                    <select id="subject-grade" class="w-full bg-slate-950/60 border border-slate-800 focus:border-emerald-500 rounded-xl pl-10 pr-10 py-3 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/10 transition-all appearance-none cursor-pointer">
+                                        <option value="X" selected>Kelas X (Sepuluh)</option>
+                                        <option value="XI">Kelas XI (Sebelas)</option>
+                                        <option value="XII">Kelas XII (Duabelas)</option>
+                                    </select>
+                                    <span class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-slate-500">
+                                        <i class="fa-solid fa-chevron-down text-xs"></i>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- INPUT BARU: TANGGAL & JAM JADWAL UJIAN -->
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2" for="exam-date">
+                                        Tanggal Pelaksanaan
+                                    </label>
+                                    <input type="date" id="exam-date" 
+                                           class="w-full bg-slate-950/60 border border-slate-800 focus:border-emerald-500 rounded-xl px-3 py-3 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/10 transition-all">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2" for="exam-time">
+                                        Jam Mulai (WIB)
+                                    </label>
+                                    <input type="time" id="exam-time" 
+                                           class="w-full bg-slate-950/60 border border-slate-800 focus:border-emerald-500 rounded-xl px-3 py-3 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/10 transition-all">
                                 </div>
                             </div>
 
@@ -357,19 +551,6 @@
                             </div>
                         </div>
 
-                        <!-- Changing Master Password Section -->
-                        <div class="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-5 shadow-xl flex flex-col gap-3">
-                            <div class="flex items-center gap-2 pb-2.5 border-b border-slate-800/60">
-                                <i class="fa-solid fa-user-lock text-blue-400"></i>
-                                <h3 class="font-extrabold text-xs uppercase tracking-wider text-white">Ganti Kode Akses Portal Admin</h3>
-                            </div>
-                            <div class="flex flex-col gap-2.5">
-                                <input type="password" id="new-admin-pass" class="w-full bg-slate-950/60 border border-slate-800 focus:border-blue-500 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-blue-500/20 text-center font-mono" placeholder="Masukkan Kode Akses Baru">
-                                <button onclick="changeAdminPasscode()" class="bg-blue-600/10 hover:bg-blue-600/20 text-blue-400 border border-blue-500/20 py-2.5 rounded-xl text-xs font-bold tracking-wide transition-all">
-                                    Perbarui Sandi Admin
-                                </button>
-                            </div>
-                        </div>
                     </section>
 
                     <!-- Right Side: Code Output & Import Parser -->
@@ -441,7 +622,7 @@
                             <div class="w-2 h-8 bg-emerald-500 rounded-full"></div>
                             <div>
                                 <h2 class="font-extrabold text-lg text-white">Daftar Paket Ujian Aktif</h2>
-                                <p class="text-xs text-slate-400">Arsip kuis yang siap dikerjakan siswa secara lokal di perangkat ini</p>
+                                <p class="text-xs text-slate-400">Arsip kuis terdaftar untuk pengerjaan lokal siswa di perangkat ini</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-2 w-full sm:w-auto">
@@ -464,7 +645,8 @@
                         <table class="w-full text-left text-xs border-collapse">
                             <thead>
                                 <tr class="bg-slate-900/80 text-slate-400 border-b border-slate-800/80 text-[10px] tracking-widest font-bold uppercase">
-                                    <th class="p-4">Identitas Mata Pelajaran</th>
+                                    <th class="p-4 text-center w-12">No</th>
+                                    <th class="p-4">Identitas & Jadwal Pelaksanaan</th>
                                     <th class="p-4">Kunci Storage</th>
                                     <th class="p-4">Batas Toleransi</th>
                                     <th class="p-4">Link Google Form</th>
@@ -535,6 +717,13 @@
                     <p class="text-xs text-slate-400 leading-relaxed mb-6 border-b border-slate-800 pb-4">
                         Pilih paket ujian Anda di bawah ini sesuai arahan pengawas kelas. Sebelum memencet tombol <strong class="text-white">Mulai Ujian</strong>, pastikan baterai perangkat Anda mencukupi dan segala bentuk notifikasi chatting telah dinonaktifkan.
                     </p>
+
+                    <!-- TAMBAHAN: Tombol Filter Saringan Kelompok Kelas Siswa -->
+                    <div class="flex flex-wrap gap-2 mb-6" id="student-filter-tabs">
+                        <button onclick="setStudentFilter('X')" id="filter-btn-X" class="px-4 py-2 rounded-xl text-xs font-bold transition-all bg-emerald-600 text-white shadow-md">Kelas X</button>
+                        <button onclick="setStudentFilter('XI')" id="filter-btn-XI" class="px-4 py-2 rounded-xl text-xs font-bold transition-all bg-slate-800 text-slate-400 hover:text-white border border-slate-700/50">Kelas XI</button>
+                        <button onclick="setStudentFilter('XII')" id="filter-btn-XII" class="px-4 py-2 rounded-xl text-xs font-bold transition-all bg-slate-800 text-slate-400 hover:text-white border border-slate-700/50">Kelas XII</button>
+                    </div>
 
                     <!-- Student Exam List Cards -->
                     <div id="student-exam-cards" class="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -633,7 +822,7 @@
                 <div class="w-full space-y-3.5">
                     <div>
                         <label class="block text-[10px] text-red-300 font-bold uppercase tracking-widest mb-2 text-left">Password Pembuka Sandi Pengawas/Guru</label>
-                        <input type="password" id="locked-pin-input" class="w-full bg-red-950/60 border border-red-500/30 focus:border-white rounded-xl p-3.5 text-sm text-center font-mono tracking-widest text-white focus:outline-none focus:ring-1 focus:ring-white transition-all placeholder-red-900" placeholder="••••••••">
+                        <input type="password" id="locked-pin-input" class="w-full bg-red-950/60 border border-red-500/30 focus:border-white rounded-xl p-3.5 text-sm text-center font-mono tracking-widest text-white focus:outline-none focus:ring-1 focus:ring-white transition-all placeholder-red-950" placeholder="••••••••">
                     </div>
                     <button onclick="unlockExamRunner()" class="w-full bg-white hover:bg-slate-100 active:scale-95 text-red-950 font-extrabold py-3.5 px-4 rounded-xl shadow-lg transition-all text-xs tracking-wider uppercase">
                         Buka Blokir Perangkat
@@ -666,6 +855,33 @@
             </div>
         </div>
 
+        <!-- ==================== VIEW 8: CUSTOM PROMPT (EXIT PIN) MODAL ==================== -->
+        <div id="custom-prompt-modal" class="hidden fixed inset-0 z-[250] bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+            <div class="max-w-sm w-full bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl text-center flex flex-col gap-5">
+                <div class="flex justify-center">
+                    <div class="bg-blue-500/10 p-4 rounded-2xl border border-blue-500/20 text-blue-400">
+                        <i class="fa-solid fa-key text-2xl"></i>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-extrabold text-white">Masukkan PIN Guru</h3>
+                    <p class="text-xs text-slate-400 mt-2 leading-relaxed">Perangkat sedang dikunci secara virtual. Masukkan PIN Guru/Pengawas untuk menyelesaikan sesi ujian.</p>
+                </div>
+                <div class="space-y-2">
+                    <input type="password" id="prompt-pin-input" class="w-full bg-slate-950/60 border border-slate-800 focus:border-emerald-500 rounded-xl p-3.5 text-sm text-center font-mono tracking-widest text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all placeholder-slate-800" placeholder="••••••••">
+                    <p id="prompt-error-msg" class="hidden text-[11px] text-red-400 font-semibold">PIN Kunci Pengawas Salah!</p>
+                </div>
+                <div class="flex gap-2.5">
+                    <button onclick="closePromptModal()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-300 py-3 rounded-xl text-xs font-bold transition-all">
+                        Kembali Ujian
+                    </button>
+                    <button onclick="submitPromptModal()" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white py-3 rounded-xl text-xs font-bold transition-all">
+                        Konfirmasi PIN
+                    </button>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <!-- Custom UI Toast Container -->
@@ -681,18 +897,24 @@
         </div>
     </footer>
 
+    <!-- ==================== CORE JAVASCRIPT ==================== -->
     <script>
         // Database & Configuration State
         let subjects = [];
-        let activeEditId = null; // Holds the ID of the subject being edited
-        let activeView = 'gateway'; // Default view
+        let activeEditId = null; 
+        let activeView = 'gateway';
+
+        // TAMBAHAN: State Filter Kelompok Kelas Siswa
+        let studentActiveFilter = 'X';
+
+        // Super Admin & Teacher Database
+        const SUPER_ADMIN_USER = 'superadmin';
+        const SUPER_ADMIN_PASS = 'super123';
+        
+        let teacherAccounts = [];
 
         // Modal State Variables for Custom Confirmation Modal
         let confirmActionHandler = null;
-
-        // App Master Admin Password State
-        const DEFAULT_ADMIN_PASSCODE = 'admin123';
-        let adminPasscode = localStorage.getItem('stealth_admin_passcode') || DEFAULT_ADMIN_PASSCODE;
 
         // Exam runner operational states
         let runningExam = null;
@@ -702,12 +924,47 @@
         // Initialize App on Window Load
         window.onload = function() {
             generateRandomKey();
+            loadTeacherAccounts();
             loadSubjectsFromStorage();
             renderSubjectsTable();
             renderStudentExamCards();
+            renderTeacherAccountsTable();
 
             // Check if any of our stored subjects are in a locked state!
             checkRunningExamLockOnLoad();
+
+            // Live refresh untuk status gembok tombol kuis setiap 5 detik jika siswa berada di Portal
+            setInterval(function() {
+                if (activeView === 'student-portal') {
+                    renderStudentExamCards();
+                }
+            }, 5000);
+        }
+
+        // Load & Save Teacher Accounts
+        function loadTeacherAccounts() {
+            const saved = localStorage.getItem('stealth_teacher_accounts');
+            if (saved) {
+                try {
+                    teacherAccounts = JSON.parse(saved);
+                } catch (e) {
+                    setDefaultTeachers();
+                }
+            } else {
+                setDefaultTeachers();
+            }
+        }
+
+        function setDefaultTeachers() {
+            teacherAccounts = [
+                { id: 'acc_1', name: 'Dasril Amri, S.Pd.', username: 'guru1', pin: 'guru123' },
+                { id: 'acc_2', name: 'Ibu Ratna, M.Pd.', username: 'guru2', pin: 'smanda77' }
+            ];
+            saveTeacherAccountsToStorage();
+        }
+
+        function saveTeacherAccountsToStorage() {
+            localStorage.setItem('stealth_teacher_accounts', JSON.stringify(teacherAccounts));
         }
 
         // Switch View Controller
@@ -715,6 +972,8 @@
             // Hide all views
             document.getElementById('view-gateway').classList.add('hidden');
             document.getElementById('view-admin-login').classList.add('hidden');
+            document.getElementById('view-super-admin-login').classList.add('hidden');
+            document.getElementById('view-super-admin-dashboard').classList.add('hidden');
             document.getElementById('view-admin-dashboard').classList.add('hidden');
             document.getElementById('view-student-portal').classList.add('hidden');
             document.getElementById('view-exam-runner').classList.add('hidden');
@@ -729,14 +988,24 @@
                 document.getElementById('app-footer').classList.remove('hidden');
             } else if (targetView === 'admin-login') {
                 document.getElementById('view-admin-login').classList.remove('hidden');
+                document.getElementById('admin-username').value = '';
                 document.getElementById('admin-passcode').value = '';
-                document.getElementById('admin-passcode').focus();
+                document.getElementById('admin-username').focus();
+            } else if (targetView === 'super-admin-login') {
+                document.getElementById('view-super-admin-login').classList.remove('hidden');
+                document.getElementById('super-passcode').value = '';
+                document.getElementById('super-passcode').focus();
+            } else if (targetView === 'super-admin-dashboard') {
+                document.getElementById('view-super-admin-dashboard').classList.remove('hidden');
+                renderTeacherAccountsTable();
             } else if (targetView === 'admin-dashboard') {
                 document.getElementById('view-admin-dashboard').classList.remove('hidden');
                 document.getElementById('app-footer').classList.remove('hidden');
             } else if (targetView === 'student-portal') {
                 document.getElementById('view-student-portal').classList.remove('hidden');
                 document.getElementById('app-footer').classList.remove('hidden');
+                // TAMBAHAN: Reset filter saat masuk ke portal
+                setStudentFilter('X');
                 renderStudentExamCards();
             } else if (targetView === 'exam-runner') {
                 document.getElementById('view-exam-runner').classList.remove('hidden');
@@ -745,31 +1014,173 @@
             }
         }
 
-        // Verify Admin Passcode Gate
-        function verifyAdminLogin() {
-            const codeInput = document.getElementById('admin-passcode').value;
-            if (codeInput === adminPasscode) {
-                showToast('Akses Dashboard Guru Berhasil Terbuka!', 'success');
-                switchView('admin-dashboard');
-            } else {
-                showToast('Kode Sandi Administrator Salah!', 'error');
-            }
+        // TAMBAHAN: Handler Filter Saringan Kelas Siswa
+        function setStudentFilter(grade) {
+            studentActiveFilter = grade;
+            const grades = ['X', 'XI', 'XII'];
+            grades.forEach(g => {
+                const btn = document.getElementById(`filter-btn-${g}`);
+                if (btn) {
+                    if (g === grade) {
+                        btn.className = "px-4 py-2 rounded-xl text-xs font-bold transition-all bg-emerald-600 text-white shadow-md";
+                    } else {
+                        btn.className = "px-4 py-2 rounded-xl text-xs font-bold transition-all bg-slate-800 text-slate-400 hover:text-white border border-slate-700/50";
+                    }
+                }
+            });
+            renderStudentExamCards();
         }
 
-        // Change Master Admin Passcode
-        function changeAdminPasscode() {
-            const val = document.getElementById('new-admin-pass').value.trim();
-            if (!val) {
-                showToast('Sandi baru tidak diperkenankan kosong!', 'error');
+        // Verify Admin/Guru Portal Login via Managed Accounts
+        function verifyAdminLogin() {
+            const userVal = document.getElementById('admin-username').value.trim();
+            const pinVal = document.getElementById('admin-passcode').value.trim();
+
+            if (!userVal || !pinVal) {
+                showToast('Harap isi Username dan Kunci PIN!', 'error');
                 return;
             }
-            localStorage.setItem('stealth_admin_passcode', val);
-            adminPasscode = val;
-            document.getElementById('new-admin-pass').value = '';
-            showToast('Sandi Administrator berhasil diperbarui!', 'success');
+
+            // Find matching credentials in database
+            const match = teacherAccounts.find(acc => acc.username === userVal && acc.pin === pinVal);
+
+            if (match) {
+                showToast(`Selamat Datang kembali, ${match.name}!`, 'success');
+                switchView('admin-dashboard');
+            } else {
+                showToast('Username atau PIN Guru Salah!', 'error');
+            }
         }
 
-        // Load subjects array from localStorage
+        // Verify Super Admin Login
+        function verifySuperAdminLogin() {
+            const userVal = document.getElementById('super-username').value.trim();
+            const passVal = document.getElementById('super-passcode').value.trim();
+
+            if (userVal === SUPER_ADMIN_USER && passVal === SUPER_ADMIN_PASS) {
+                showToast('Otorisasi Super Admin Sukses Terbuka!', 'success');
+                switchView('super-admin-dashboard');
+            } else {
+                showToast('Password Super Admin Salah!', 'error');
+            }
+        }
+
+        // ==================== SUPER ADMIN LOGIC ====================
+        function renderTeacherAccountsTable() {
+            const tbody = document.getElementById('teacher-accounts-table-body');
+            const emptyState = document.getElementById('teacher-empty-state');
+            tbody.innerHTML = '';
+
+            if (teacherAccounts.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            } else {
+                emptyState.classList.add('hidden');
+            }
+
+            teacherAccounts.forEach(acc => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-900/40 border-b border-slate-800/60 transition-colors';
+                tr.innerHTML = `
+                    <td class="p-3 font-bold text-white">${acc.name}</td>
+                    <td class="p-3 font-mono text-purple-400 font-semibold">${acc.username}</td>
+                    <td class="p-3 font-mono text-slate-300">${acc.pin}</td>
+                    <td class="p-3 text-right">
+                        <div class="inline-flex gap-1.5">
+                            <button onclick="editTeacherAccount('${acc.id}')" class="bg-blue-600/10 hover:bg-blue-600/20 text-blue-400 px-2.5 py-1 rounded border border-blue-500/15">Edit</button>
+                            <button onclick="deleteTeacherAccount('${acc.id}')" class="bg-red-600/10 hover:bg-red-600/20 text-red-400 px-2.5 py-1 rounded border border-red-500/15"><i class="fa-solid fa-trash-can"></i></button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function saveTeacherAccount() {
+            const fullname = document.getElementById('guru-fullname').value.trim();
+            const username = document.getElementById('guru-user').value.trim().toLowerCase();
+            const pin = document.getElementById('guru-pin').value.trim();
+            const editId = document.getElementById('edit-guru-id').value;
+
+            if (!fullname || !username || !pin) {
+                showToast('Harap lengkapi semua isian akun!', 'error');
+                return;
+            }
+
+            // Check duplicate username (exclude current edit)
+            const duplicate = teacherAccounts.find(acc => acc.username === username && acc.id !== editId);
+            if (duplicate) {
+                showToast('Username tersebut telah digunakan guru lain!', 'error');
+                return;
+            }
+
+            if (editId) {
+                // Edit existing
+                const idx = teacherAccounts.findIndex(acc => acc.id === editId);
+                if (idx !== -1) {
+                    teacherAccounts[idx] = { id: editId, name: fullname, username, pin };
+                    showToast('Data akun guru sukses diperbarui!', 'success');
+                }
+            } else {
+                // Create new
+                const newAcc = {
+                    id: 'acc_' + Date.now(),
+                    name: fullname,
+                    username,
+                    pin
+                };
+                teacherAccounts.push(newAcc);
+                showToast('Akun guru baru berhasil ditambahkan!', 'success');
+            }
+
+            saveTeacherAccountsToStorage();
+            resetTeacherForm();
+            renderTeacherAccountsTable();
+        }
+
+        function editTeacherAccount(id) {
+            const acc = teacherAccounts.find(acc => acc.id === id);
+            if (acc) {
+                document.getElementById('edit-guru-id').value = acc.id;
+                document.getElementById('guru-fullname').value = acc.name;
+                document.getElementById('guru-user').value = acc.username;
+                document.getElementById('guru-pin').value = acc.pin;
+
+                document.getElementById('super-guru-form-title').innerText = "Edit Akun Guru";
+                document.getElementById('btn-save-teacher').innerHTML = `<i class="fa-solid fa-cloud-arrow-up"></i> Perbarui Akun`;
+            }
+        }
+
+        function deleteTeacherAccount(id) {
+            const acc = teacherAccounts.find(acc => acc.id === id);
+            if (!acc) return;
+
+            confirmActionHandler = function() {
+                teacherAccounts = teacherAccounts.filter(acc => acc.id !== id);
+                saveTeacherAccountsToStorage();
+                resetTeacherForm();
+                renderTeacherAccountsTable();
+                closeConfirmModal();
+                showToast('Akun guru berhasil dihapus!', 'info');
+            }
+
+            const modal = document.getElementById('custom-confirm-modal');
+            document.getElementById('confirm-modal-title').innerText = "Hapus Akun Guru?";
+            document.getElementById('confirm-modal-desc').innerText = `Apakah Anda yakin ingin menghapus hak akses Guru untuk "${acc.name}"?`;
+            document.getElementById('confirm-modal-action-btn').onclick = confirmActionHandler;
+            modal.classList.remove('hidden');
+        }
+
+        function resetTeacherForm() {
+            document.getElementById('edit-guru-id').value = '';
+            document.getElementById('guru-fullname').value = '';
+            document.getElementById('guru-user').value = '';
+            document.getElementById('guru-pin').value = '';
+            document.getElementById('super-guru-form-title').innerText = "Tambahkan Akun Guru";
+            document.getElementById('btn-save-teacher').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Simpan Akun`;
+        }
+
+        // ==================== CORE GURU GENERATOR LOGIC ====================
         function loadSubjectsFromStorage() {
             const saved = localStorage.getItem('stealth_generator_subjects');
             if (saved) {
@@ -782,12 +1193,10 @@
             }
         }
 
-        // Save subjects array to localStorage
         function saveSubjectsToStorage() {
             localStorage.setItem('stealth_generator_subjects', JSON.stringify(subjects));
         }
 
-        // Toggle Visibility Password
         function togglePasswordVisibility() {
             const passInput = document.getElementById('pass');
             const eyeIcon = document.getElementById('pass-eye-icon');
@@ -800,7 +1209,6 @@
             }
         }
 
-        // Generate Random Passwords for quick setup
         function generateRandomPass() {
             const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             let length = 6;
@@ -810,12 +1218,11 @@
             }
             document.getElementById('pass').value = result;
             if (document.getElementById('pass').type === 'password') {
-                togglePasswordVisibility(); // Show generated password
+                togglePasswordVisibility(); 
             }
             showToast('PIN Kunci Acak Berhasil Dirumuskan!', 'info');
         }
 
-        // Generate Random Storage Key
         function generateRandomKey() {
             const prefixes = ['uh_mtk', 'uh_ind', 'exam_ipa', 'quiz_ips', 'ujian_akhir'];
             const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
@@ -828,19 +1235,17 @@
             showToast('Kunci Storage Acak Unik Diperbarui!', 'info');
         }
 
-        // Hashing Algorithm (String-to-Int hash value)
         function hashCode(str) {
             let hash = 0;
             if (str.length === 0) return hash;
             for (let i = 0; i < str.length; i++) {
                 let chr = str.charCodeAt(i);
                 hash = ((hash << 5) - hash) + chr;
-                hash |= 0; // Convert to 32bit integer
+                hash |= 0; 
             }
             return hash;
         }
 
-        // Convert string URL into obfuscated hex string
         function stringToHexEscaped(str) {
             let hexUrl = "";
             for (let i = 0; i < str.length; i++) {
@@ -849,18 +1254,16 @@
             return hexUrl;
         }
 
-        // Decode hex back to plain string
         function decodeHexEscaped(hexStr) {
             try {
                 return hexStr.replace(/\\x([0-9a-fA-F]{2})/g, function(match, p1) {
                     return String.fromCharCode(parseInt(p1, 16));
                 });
             } catch(e) {
-                return hexStr; // fallback
+                return hexStr; 
             }
         }
 
-        // Custom Toast Notifications
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
@@ -887,20 +1290,13 @@
             `;
             
             container.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.classList.remove('translate-y-4', 'opacity-0');
-            }, 10);
-            
+            setTimeout(() => { toast.classList.remove('translate-y-4', 'opacity-0'); }, 10);
             setTimeout(() => {
                 toast.classList.add('opacity-0', 'translate-y-4');
-                setTimeout(() => {
-                    toast.remove();
-                }, 350);
+                setTimeout(() => { toast.remove(); }, 350);
             }, 4500);
         }
 
-        // Custom Confirm Dialog Modal
         function showDeleteConfirmModal(mode, id) {
             const modal = document.getElementById('custom-confirm-modal');
             const title = document.getElementById('confirm-modal-title');
@@ -948,7 +1344,7 @@
         }
 
         // Build HTML template file
-        function buildOutputTemplate(subjName, hexUrl, hashedValue, storageKey, limitCount, blockCtx, blockDev, forceFs) {
+        function buildOutputTemplate(subjName, hexUrl, hashedValue, storageKey, limitCount, blockCtx, blockDev, forceFs, dateVal, timeVal) {
             const ctxCode = blockCtx ? `document.addEventListener("contextmenu",e=>e.preventDefault());` : ``;
             const devCode = blockDev ? `document.addEventListener("keydown",e=>{if(e.ctrlKey||e.shiftKey||e.key=="F12"||(e.ctrlKey&&e.shiftKey&&(e.key=="I"||e.key=="J"||e.key=="C"))){e.preventDefault()}});` : ``;
             const fsCodeStart = forceFs ? `fs();` : ``;
@@ -975,16 +1371,18 @@ button{padding:14px 28px;font-size:15px;cursor:pointer;border-radius:8px;border:
 button:active{transform:scale(0.97)}
 .g{background:#10b981;color:#fff;box-shadow:0 4px 12px rgba(16,185,129,0.3)}.g:hover{background:#059669}
 .z{background:#fff;color:#7f1d1d;box-shadow:0 4px 12px rgba(0,0,0,0.2)}.z:hover{background:#f1f5f9}
-input[type="text"]{padding:10px 14px;border-radius:6px;border:1px solid #475569;background:#0f172a;color:#fff;width:100%;max-width:280px;box-sizing:border-box;font-size:14px;text-align:center;margin-bottom:12px}
+input[type="text"], input[type="password"]{padding:10px 14px;border-radius:6px;border:1px solid #475569;background:#0f172a;color:#fff;width:100%;max-width:280px;box-sizing:border-box;font-size:14px;text-align:center;margin-bottom:12px}
 .err-msg{color:#f87171;font-size:12px;margin-top:5px;display:none}
+.sched-badge {background:#1e1b4b;border:1px solid #4338ca;color:#a5b4fc;padding:6px 12px;border-radius:20px;font-size:11px;font-weight:600;margin-bottom:12px;}
 </style>
 </head>
 <body>
 <div id="s">
   <h2>ATURAN KESELAMATAN</h2>
+  <div class="sched-badge">📆 JADWAL: ${dateVal || "-"} | 🕒 ${timeVal || "-"} WIB</div>
   <div class="r">
     <ul>
-      <li>Dilarang meninggalkan halaman pengerjaan.</li>
+      <li>Dilarang meninggalkan halaman pengerjaan kuis.</li>
       <li>Batas toleransi maksimal perpindahan tab: <b>${limitCount}x</b>.</li>
       <li>Melanggar batas toleransi akan mengunci layar ujian seketika.</li>
     </ul>
@@ -994,7 +1392,7 @@ input[type="text"]{padding:10px 14px;border-radius:6px;border:1px solid #475569;
 
 <div id="b">
   <h1 style="font-size:72px;margin:0 0 10px 0">🔒</h1>
-  <h2 style="font-size:24px;margin-bottom:8px">UJIAN TERKUNCI</h2>
+  <h2>UJIAN TERKUNCI</h2>
   <p style="color:#fca5a5;font-size:14px;margin-top:0;margin-bottom:20px;max-width:320px">Anda terdeteksi melakukan tindakan pelanggaran dengan meninggalkan tab ujian.</p>
   <div style="width:100%;max-width:300px;display:flex;flex-direction:column;align-items:center;">
     <input type="password" id="p_v" placeholder="Masukkan PIN Guru" style="padding:12px;border-radius:8px;border:1px solid #b91c1c;background:#450a0a;color:#fff;width:100%;text-align:center;font-size:14px;outline:none;">
@@ -1024,6 +1422,10 @@ ${ctxCode}${devCode}
         // Main function to generate pure steril stealth exam lockdown page
         function generateCleanCode() {
             const subjName = document.getElementById('subject-name').value.trim();
+            // TAMBAHAN: Ambil Pilihan Kelompok Kelas
+            const gradeVal = document.getElementById('subject-grade').value;
+            const dateVal = document.getElementById('exam-date').value;
+            const timeVal = document.getElementById('exam-time').value;
             const url = document.getElementById('url').value.trim();
             const pass = document.getElementById('pass').value.trim();
             const key = document.getElementById('key').value.trim();
@@ -1053,12 +1455,11 @@ ${ctxCode}${devCode}
             if (pass) {
                 hashedValue = hashCode(pass);
             } else if (activeEditId !== null) {
-                // If editing and didn't type pass, keep previous hash
                 const currentObj = subjects.find(s => s.id === activeEditId);
                 hashedValue = currentObj ? currentObj.passHash : 0;
             }
 
-            const outputTemplate = buildOutputTemplate(subjName, hexUrl, hashedValue, key, limit, blockCtx, blockDev, forceFs);
+            const outputTemplate = buildOutputTemplate(subjName, hexUrl, hashedValue, key, limit, blockCtx, blockDev, forceFs, dateVal, timeVal);
 
             document.getElementById('result-code').value = outputTemplate;
             showToast('Kompilasi kode aman rampung tanpa celah!', 'success');
@@ -1067,6 +1468,9 @@ ${ctxCode}${devCode}
             if (activeEditId !== null) {
                 updateExistingSubject(activeEditId, {
                     name: subjName || "Ujian Tanpa Judul",
+                    grade: gradeVal, // TAMBAHAN: Update kelompok kelas
+                    date: dateVal,
+                    time: timeVal,
                     url: url,
                     passHash: hashedValue,
                     key: key,
@@ -1075,6 +1479,35 @@ ${ctxCode}${devCode}
                     blockDev: blockDev,
                     forceFs: forceFs
                 });
+            } else {
+                // Prevent overwriting: Auto-generate a unique key if it already exists
+                let finalKey = key;
+                let counter = 1;
+                while (subjects.some(s => s.key === finalKey)) {
+                    finalKey = `${key}_${counter}`;
+                    counter++;
+                }
+
+                const newSubj = {
+                    id: 'subj_' + Date.now() + '_' + Math.floor(Math.random()*1000),
+                    name: subjName || "Ujian Tanpa Judul",
+                    grade: gradeVal, // TAMBAHAN: Simpan kelompok kelas
+                    date: dateVal,
+                    time: timeVal,
+                    url: url,
+                    passHash: hashedValue,
+                    key: finalKey,
+                    limit: limit,
+                    blockCtx: blockCtx,
+                    blockDev: blockDev,
+                    forceFs: forceFs
+                };
+                subjects.push(newSubj);
+                showToast(`Kuis "${newSubj.name}" otomatis didaftarkan ke Portal Siswa!`, 'success');
+                
+                saveSubjectsToStorage();
+                renderSubjectsTable();
+                renderStudentExamCards();
             }
         }
 
@@ -1119,6 +1552,10 @@ ${ctxCode}${devCode}
                 const titleMatch = rawHtml.match(/<title>([^<]+)<\/title>/i);
                 const title = titleMatch ? titleMatch[1].trim() : "Paket Kuis Impor";
 
+                const schedMatch = rawHtml.match(/JADWAL:\s*([^\s|]+)\s*\|\s*🕒\s*([^\s]+)/);
+                const parsedDate = schedMatch ? schedMatch[1] : "";
+                const parsedTime = schedMatch ? schedMatch[2] : "";
+
                 const _0xMatch = rawHtml.match(/var\s+_0x\s*=\s*"([^"]+)"/);
                 const _0hMatch = rawHtml.match(/var\s+_0h\s*=\s*(-?\d+)/);
                 const _0kMatch = rawHtml.match(/var\s+_0k\s*=\s*"([^"]+)"/);
@@ -1142,6 +1579,8 @@ ${ctxCode}${devCode}
                 return {
                     id: 'subj_' + Date.now() + '_' + Math.floor(Math.random()*1000),
                     name: title,
+                    date: parsedDate,
+                    time: parsedTime,
                     url: rawUrl,
                     passHash: passHash,
                     key: storageKey,
@@ -1156,7 +1595,6 @@ ${ctxCode}${devCode}
             }
         }
 
-        // Import Configurations to form
         function parseAndImportCode() {
             const rawHtml = document.getElementById('import-code').value.trim();
             const result = parseLockExamCode(rawHtml);
@@ -1169,7 +1607,6 @@ ${ctxCode}${devCode}
             }
         }
 
-        // Import and directly add into Database
         function parseAndAddToTable() {
             const rawHtml = document.getElementById('import-code').value.trim();
             const result = parseLockExamCode(rawHtml);
@@ -1188,9 +1625,13 @@ ${ctxCode}${devCode}
             }
         }
 
-        // Save active Form configuration to Subject Database List
+        // Save active Form configuration to Subject Database List (Multi-package)
         function saveActiveToSubjects() {
             const name = document.getElementById('subject-name').value.trim() || "Ujian Tanpa Judul";
+            // TAMBAHAN: Ambil Pilihan Kelompok Kelas
+            const gradeVal = document.getElementById('subject-grade').value;
+            const dateVal = document.getElementById('exam-date').value;
+            const timeVal = document.getElementById('exam-time').value;
             const url = document.getElementById('url').value.trim();
             const pass = document.getElementById('pass').value.trim();
             const key = document.getElementById('key').value.trim();
@@ -1213,11 +1654,19 @@ ${ctxCode}${devCode}
             }
 
             if (activeEditId !== null) {
-                updateExistingSubject(activeEditId, { name, url, passHash, key, limit, blockCtx, blockDev, forceFs });
+                updateExistingSubject(activeEditId, { name, grade: gradeVal, date: dateVal, time: timeVal, url, passHash, key, limit, blockCtx, blockDev, forceFs });
             } else {
+                // Prevent overwriting: Auto-generate a unique key if it already exists
+                let finalKey = key;
+                let counter = 1;
+                while (subjects.some(s => s.key === finalKey)) {
+                    finalKey = `${key}_${counter}`;
+                    counter++;
+                }
+
                 const newSubj = {
                     id: 'subj_' + Date.now() + '_' + Math.floor(Math.random()*1000),
-                    name, url, passHash, key, limit, blockCtx, blockDev, forceFs
+                    name, grade: gradeVal, date: dateVal, time: timeVal, url, passHash, key: finalKey, limit, blockCtx, blockDev, forceFs
                 };
                 subjects.push(newSubj);
                 showToast(`Mata pelajaran "${name}" berhasil diarsipkan!`, 'success');
@@ -1225,10 +1674,10 @@ ${ctxCode}${devCode}
 
             saveSubjectsToStorage();
             renderSubjectsTable();
+            renderStudentExamCards();
             resetConfigForm();
         }
 
-        // Update single existing record in database
         function updateExistingSubject(id, updatedFields) {
             const idx = subjects.findIndex(s => s.id === id);
             if (idx !== -1) {
@@ -1239,7 +1688,6 @@ ${ctxCode}${devCode}
             }
         }
 
-        // Edit button action - Load database record to input fields
         function editSubject(id) {
             const subj = subjects.find(s => s.id === id);
             if (subj) {
@@ -1252,11 +1700,14 @@ ${ctxCode}${devCode}
             }
         }
 
-        // Populate Form Values
         function populateConfigForm(data) {
             document.getElementById('subject-name').value = data.name || "";
+            // TAMBAHAN: Set Pilihan Kelompok Kelas
+            document.getElementById('subject-grade').value = data.grade || "X";
+            document.getElementById('exam-date').value = data.date || "";
+            document.getElementById('exam-time').value = data.time || "";
             document.getElementById('url').value = data.url || "";
-            document.getElementById('pass').value = ""; // Cleartext password remains hidden
+            document.getElementById('pass').value = ""; 
             document.getElementById('key').value = data.key || "ujian_aman";
             document.getElementById('limit').value = data.limit || "2";
             document.getElementById('block-ctx').checked = data.blockCtx !== undefined ? data.blockCtx : true;
@@ -1264,9 +1715,12 @@ ${ctxCode}${devCode}
             document.getElementById('force-fs').checked = data.forceFs !== undefined ? data.forceFs : true;
         }
 
-        // Reset Config Inputs
         function resetConfigForm() {
             document.getElementById('subject-name').value = "";
+            // TAMBAHAN: Reset Pilihan Kelompok Kelas
+            document.getElementById('subject-grade').value = "X";
+            document.getElementById('exam-date').value = "";
+            document.getElementById('exam-time').value = "";
             document.getElementById('url').value = "";
             document.getElementById('pass').value = "";
             generateRandomKey();
@@ -1301,10 +1755,14 @@ ${ctxCode}${devCode}
                 emptyState.classList.add('hidden');
             }
 
-            filtered.forEach(subj => {
+            filtered.forEach((subj, index) => {
                 const tr = document.createElement('tr');
                 tr.className = 'hover:bg-slate-900/40 border-b border-slate-800/60 transition-colors group';
                 
+                // TAMBAHAN: Ambil & Format Kelas Badge
+                const gradeLabel = subj.grade ? `Kelas ${subj.grade}` : "Kelas X";
+                const gradeBadge = `<span class="bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-2 py-0.5 rounded text-[10px] font-bold inline-block mr-1.5">${gradeLabel}</span>`;
+
                 let shortUrl = "Link kosong";
                 if (subj.url) {
                     try {
@@ -1314,6 +1772,9 @@ ${ctxCode}${devCode}
                         shortUrl = subj.url.substring(0, 25) + '...';
                     }
                 }
+
+                const dateDisplay = subj.date ? subj.date : 'Belum diatur';
+                const timeDisplay = subj.time ? subj.time + ' WIB' : 'Belum diatur';
 
                 const protBadge = `
                     <div class="flex gap-1.5 justify-center">
@@ -1330,9 +1791,12 @@ ${ctxCode}${devCode}
                 `;
 
                 tr.innerHTML = `
+                    <td class="p-4 text-center w-12">No</td>
                     <td class="p-4">
                         <span class="font-bold text-white block text-sm group-hover:text-emerald-400 transition-colors">${subj.name}</span>
-                        <span class="text-[9px] text-slate-500 tracking-wider font-mono">HASH: ${subj.passHash}</span>
+                        <span class="text-[10px] text-indigo-300 font-semibold block mt-0.5">
+                            ${gradeBadge} <i class="fa-solid fa-calendar-day mr-1"></i> ${dateDisplay} &bull; <i class="fa-solid fa-clock mr-1"></i> ${timeDisplay}
+                        </span>
                     </td>
                     <td class="p-4 font-mono text-emerald-400 text-[11px] font-semibold">${subj.key}</td>
                     <td class="p-4 font-medium text-slate-300">${subj.limit}x Limit</td>
@@ -1363,26 +1827,89 @@ ${ctxCode}${devCode}
             const emptyState = document.getElementById('student-empty-state');
             container.innerHTML = '';
 
-            if (subjects.length === 0) {
+            // TAMBAHAN: Saring paket ujian siswa berdasarkan filter aktif kelompok kelas
+            const filteredSubjects = subjects.filter(subj => {
+                if (studentActiveFilter === 'all') return true;
+                const subjGrade = subj.grade || 'X'; // fallback ke kelas X
+                return subjGrade === studentActiveFilter;
+            });
+
+            if (filteredSubjects.length === 0) {
                 emptyState.classList.remove('hidden');
                 return;
             } else {
                 emptyState.classList.add('hidden');
             }
 
-            subjects.forEach(subj => {
+            filteredSubjects.forEach((subj, index) => {
                 const card = document.createElement('div');
                 card.className = 'bg-slate-900/50 border border-slate-800 rounded-3xl p-5 hover:border-emerald-500/40 hover:bg-slate-900 transition-all duration-300 flex flex-col justify-between gap-5 shadow-lg group';
                 
+                // TAMBAHAN: Badge kelompok kelas
+                const gradeLabel = subj.grade ? `Kelas ${subj.grade}` : "Kelas X";
+                const gradeBadge = `<span class="text-[9px] font-black bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-3 py-1 rounded-full tracking-widest uppercase">${gradeLabel}</span>`;
+
                 // Indicators inside Card
                 const badgeCtx = subj.blockCtx ? '<span class="text-[9px] font-bold bg-slate-950/80 border border-slate-800/80 px-2.5 py-1 rounded-md text-slate-400">Anti-KlikKanan</span>' : '';
                 const badgeDev = subj.blockDev ? '<span class="text-[9px] font-bold bg-slate-950/80 border border-slate-800/80 px-2.5 py-1 rounded-md text-slate-400">Anti-F12</span>' : '';
                 const badgeFs = subj.forceFs ? '<span class="text-[9px] font-bold bg-slate-950/80 border border-slate-800/80 px-2.5 py-1 rounded-md text-slate-400">ForceLayarPenuh</span>' : '';
 
+                const dateString = subj.date ? subj.date : 'Fleksibel';
+                const timeString = subj.time ? subj.time + ' WIB' : 'Bebas';
+
+                // Verifikasi Tanggal dan Jam Ujian (Kunci Jadwal)
+                let isTimeLocked = false;
+                let statusBadge = '';
+
+                if (subj.date && subj.time) {
+                    const scheduledDateTime = new Date(`${subj.date}T${subj.time}:00`);
+                    const now = new Date();
+
+                    if (now < scheduledDateTime) {
+                        isTimeLocked = true;
+                        statusBadge = `<span class="text-[9px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/25 px-2.5 py-1 rounded-md"><i class="fa-solid fa-lock text-[8px] mr-1"></i> BELUM DIMULAI</span>`;
+                    } else {
+                        isTimeLocked = false;
+                        statusBadge = `<span class="text-[9px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 px-2.5 py-1 rounded-md animate-pulse"><i class="fa-solid fa-circle-check text-[8px] mr-1"></i> AKTIF</span>`;
+                    }
+                } else {
+                    isTimeLocked = false;
+                    statusBadge = `<span class="text-[9px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 px-2.5 py-1 rounded-md"><i class="fa-solid fa-circle-check text-[8px] mr-1"></i> AKTIF</span>`;
+                }
+
+                // Desain Tombol Berdasarkan Status Waktu Pelaksanaan
+                let btnActionHTML = '';
+                if (isTimeLocked) {
+                    btnActionHTML = `
+                        <button disabled class="w-full bg-slate-800/80 border border-slate-700/50 text-slate-500 font-bold py-3.5 px-4 rounded-2xl text-xs flex items-center justify-center gap-2 tracking-wide cursor-not-allowed transition-all">
+                            <i class="fa-solid fa-clock-rotate-left text-sm"></i> Belum Waktunya Mulai
+                        </button>
+                    `;
+                } else {
+                    btnActionHTML = `
+                        <button onclick="requestStartExam('${subj.id}')" class="w-full bg-emerald-600 hover:bg-emerald-500 active:scale-[0.98] text-white font-extrabold py-3.5 px-4 rounded-2xl text-xs transition-all flex items-center justify-center gap-2 tracking-wide shadow-md shadow-emerald-950/20">
+                            <i class="fa-solid fa-circle-play text-sm"></i> Mulai Ujian Sekarang
+                        </button>
+                    `;
+                }
+
                 card.innerHTML = `
                     <div class="flex flex-col gap-2">
-                        <span class="text-[9px] font-black bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full self-start tracking-widest uppercase">READY TO LAUNCH</span>
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center gap-1.5 flex-wrap">
+                                <span class="text-[9px] font-black bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 px-3 py-1 rounded-full tracking-widest uppercase">PAKET #${index + 1}</span>
+                                ${gradeBadge}
+                                ${statusBadge}
+                            </div>
+                            <span class="text-[10px] font-bold text-slate-500"><i class="fa-solid fa-calendar-day"></i> ${dateString}</span>
+                        </div>
                         <h3 class="font-extrabold text-lg text-white mt-1 group-hover:text-emerald-400 transition-colors">${subj.name}</h3>
+                        
+                        <div class="bg-slate-950/40 border border-slate-800/50 rounded-xl p-2.5 mt-1.5 flex justify-between items-center text-xs">
+                            <span class="text-slate-400 font-semibold"><i class="fa-solid fa-clock text-indigo-400 mr-1.5"></i> Jam Mulai:</span>
+                            <span class="font-bold text-slate-200">${timeString}</span>
+                        </div>
+
                         <div class="flex flex-wrap gap-1.5 mt-2">
                             <span class="text-[9px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2.5 py-1 rounded-md">Batas Tab: ${subj.limit}x</span>
                             ${badgeCtx}
@@ -1390,9 +1917,7 @@ ${ctxCode}${devCode}
                             ${badgeFs}
                         </div>
                     </div>
-                    <button onclick="requestStartExam('${subj.id}')" class="w-full bg-emerald-600 hover:bg-emerald-500 active:scale-[0.98] text-white font-extrabold py-3.5 px-4 rounded-2xl text-xs transition-all flex items-center justify-center gap-2 tracking-wide shadow-md shadow-emerald-950/20">
-                        <i class="fa-solid fa-circle-play text-sm"></i> Mulai Ujian Sekarang
-                    </button>
+                    ${btnActionHTML}
                 `;
                 container.appendChild(card);
             });
@@ -1467,23 +1992,37 @@ ${ctxCode}${devCode}
             switchView('student-portal');
         }
 
-        // Request Teacher permission to safely exit exam
+        // Custom Exit PIN Modal Functions (Replacing window.prompt)
         function requestExitExam() {
             if (!runningExam) {
                 exitExamRunnerSilent();
                 return;
             }
-            const pass = prompt("Perangkat sedang dikunci.\nMasukkan PIN Buka Kunci Guru untuk menyelesaikan sesi pengerjaan:");
-            if (pass !== null) {
-                if (hashCode(pass) === runningExam.passHash || pass === adminPasscode) {
-                    isExamActive = false;
-                    localStorage.removeItem(runningExam.key); // Ensure unlocked
-                    exitFullscreenMode();
-                    exitExamRunnerSilent();
-                    showToast('Ujian diselesaikan dengan tertib sesuai persetujuan guru.', 'success');
-                } else {
-                    showToast('Kode PIN Guru salah! Sesi pengerjaan tetap dilanjutkan.', 'error');
-                }
+            // Clear input and error, then display modal
+            document.getElementById('prompt-pin-input').value = '';
+            document.getElementById('prompt-error-msg').classList.add('hidden');
+            document.getElementById('custom-prompt-modal').classList.remove('hidden');
+        }
+
+        function closePromptModal() {
+            document.getElementById('custom-prompt-modal').classList.add('hidden');
+        }
+
+        function submitPromptModal() {
+            const pinVal = document.getElementById('prompt-pin-input').value;
+            const errorMsgEl = document.getElementById('prompt-error-msg');
+            
+            // Validate pin against active subject pin or general Super Admin bypass
+            if (hashCode(pinVal) === runningExam.passHash || pinVal === SUPER_ADMIN_PASS) {
+                isExamActive = false;
+                localStorage.removeItem(runningExam.key); // Ensure unlocked
+                exitFullscreenMode();
+                closePromptModal();
+                exitExamRunnerSilent();
+                showToast('Ujian diselesaikan dengan tertib sesuai persetujuan guru.', 'success');
+            } else {
+                errorMsgEl.classList.remove('hidden');
+                showToast('PIN Guru salah! Sesi kuis tetap dilanjutkan.', 'error');
             }
         }
 
@@ -1545,8 +2084,8 @@ ${ctxCode}${devCode}
                 return;
             }
 
-            // Compare input with subject teacher PIN (hash) or admin bypass
-            if (hashCode(inputVal) === runningExam.passHash || inputVal === adminPasscode) {
+            // Compare input with subject teacher PIN (hash) or Super Admin bypass
+            if (hashCode(inputVal) === runningExam.passHash || inputVal === SUPER_ADMIN_PASS) {
                 localStorage.removeItem(runningExam.key);
                 showToast('Kunci proteksi berhasil dinonaktifkan oleh guru pengawas!', 'success');
                 
