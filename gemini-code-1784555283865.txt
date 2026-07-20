@@ -1,0 +1,6 @@
+sistem-ujian-smanda/
+├── config/
+│   └── koneksi.php       # File koneksi database PDO
+├── api.php               # Backend REST API (Proses data JSON)
+├── database.sql          # File skema database MySQL
+└── index.html            # Frontend UI (dihubungkan via AJAX Fetch API)
